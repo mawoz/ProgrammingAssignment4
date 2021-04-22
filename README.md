@@ -17,7 +17,7 @@ This [repository](https://github.com/mawoz/ProgrammingAssignment4/) hosts the fo
 | file    | description |
 | --------|-------------|   
 | [run_analysis.R](https://github.com/mawoz/ProgrammingAssignment4/blob/main/run_analysis.R)| R script to perform the analysis|
-| [README.md](https://github.com/mawoz/ProgrammingAssignment4/blob/main/README.MD)| this README file with a general overview on the analysis, workflow and requirements|
+| [README.md](https://github.com/mawoz/ProgrammingAssignment4/blob/main/README.md)| this README file with a general overview on the analysis, workflow and requirements|
 | [Codebook.md](https://github.com/mawoz/ProgrammingAssignment4/blob/main/CODEBOOK.MD)| a CODEBOOK file that modifies and updates existing codebooks with the data to indicate all the variables and summaries calculated |
 | [tidy.txt](https://github.com/mawoz/ProgrammingAssignment4/blob/main/tidy.txt)| independent tidy data set with the average of each variable for each activity and each subject|
 
@@ -42,7 +42,7 @@ The script requires the R package 'dplyr'. As this should be installed on almost
 
     install.packages('dplyr')
 
-There is no need to download the original data set from the UCI site manually, as the R script checks whether there is the zip file called 'Dataset.zip' in your working directory or a folder called '/UCI HAR Dataset'. It should be clear that this is no *real* evidence for the data set being in the right place, especially when the original zipfile is named otherwise. This routine was only implemented to prevent from downloading the full data set with every iteration / repetition of this script. So if neither can be found, the script initiates the download and then unzips the data set into the folder '/UCI HAR Dataset'.
+There is no need to download the original data set from the UCI site manually, as the R script checks whether there is the zip file called 'Dataset.zip' in your working directory or a folder called '/UCI HAR Dataset'. It should be clear that this is no *real* evidence for the data set being in the right place, especially when the original zip file is named otherwise. This routine was only implemented to prevent from downloading the full data set with every iteration / repetition of this script. So if neither can be found, the script initiates the download and then unzips the data set into the folder '''/UCI HAR Dataset'''.
 
 ---
 
