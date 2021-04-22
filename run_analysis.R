@@ -28,7 +28,7 @@ mainDir <- "UCI HAR Dataset/"
 testDir <- "UCI HAR Dataset/test/"
 trainDir <- "UCI HAR Dataset/train/"
 
-# Retrive zipfile and unpack data
+# Retrieve zip file and unpack data
 if (!file.exists("Dataset.zip")) {
         print("Downloading dataset...")
         download.file(zipUrl, destfile = "Dataset.zip", method = "curl")
@@ -53,6 +53,7 @@ activityLabels[,2] <- tolower(gsub("_", "", activityLabels[,2]))
 features <- read.table(paste0(mainDir, "features.txt"),
                        stringsAsFactors = FALSE,
                        header = FALSE)
+featuresOrig <- features
 
 testSubjects <- as.numeric(readLines(paste0(testDir, "subject_test.txt")))
 testLabels <- readLines(paste0(testDir, "y_test.txt"))
@@ -70,8 +71,13 @@ print("...DONE")
 
 # Step 2        Extracts only the measurements on the mean and standard
 #               deviation for each measurement.
-print("Step 2... Extracts only mean and standard deviation for each measurement.")
-featuresWanted <- grep("mean|std", features[,2])
+print("Step 2... Extracts only mean and standard deviation for each measurement,")
+print("...and ignores all meanFreq() measurements.")
+#featuresWanted <- grep("mean()|std()", features[,2])
+#featuresNotWanted <- grep("meanFreq()", features[,2])
+featuresWanted <- setdiff(grep("mean()|std()", features[,2]),
+                               grep("meanFreq()", features[,2]))
+                               
 wantedDF <- DF[featuresWanted]
 print("...DONE")
 
@@ -90,8 +96,12 @@ print("...DONE")
 #               descriptive variable names.
 print("Step 4... Labeling data set with descriptive variable names.")
 features[,2][featuresWanted] <- gsub("-mean", "Mean", features[,2][featuresWanted])
-features[,2][featuresWanted] <- gsub("-std", "Std", features[,2][featuresWanted])
+features[,2][featuresWanted] <- gsub("-std", "Stdev", features[,2][featuresWanted])
+
 features[,2][featuresWanted] <- gsub("[-()]", "", features[,2][featuresWanted])
+
+features[,2][featuresWanted] <- gsub("^t", "Time", features[, 2][featuresWanted])
+features[,2][featuresWanted] <- gsub("^f", "Freq", features[, 2][featuresWanted])
 
 colnames(wantedDF) <- c("subject", "activity", features[,2][featuresWanted])
 print("...DONE")
@@ -103,6 +113,15 @@ print("Step 5... Creating independent tidy data set with averages.")
 groupedDF <- wantedDF %>%
         group_by(subject, activity) %>%
         summarize_all(list(~mean(.)))
+
+print("... and re-labeling the column names by adding 'meanOf'.")
+oldColNames <- colnames(groupedDF)
+newColNames <- sapply(oldColNames, function(x) {paste("meanOf",x,sep="")})
+
+colnames(groupedDF) <- newColNames
+colnames(groupedDF)[1:2] <- oldColNames[1:2]
+
+
 print("...DONE")
 
 # Save tidy data to disk
