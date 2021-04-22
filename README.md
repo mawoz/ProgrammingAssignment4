@@ -42,7 +42,7 @@ The script requires the R package 'dplyr'. As this should be installed on almost
 
     install.packages('dplyr')
 
-There is no need to download the original data set from the UCI site manually, as the R script checks whether there is the zip file called 'Dataset.zip' in your working directory or a folder called '/UCI HAR Dataset'. It should be clear that this is no *real* evidence for the data set being in the right place, especially when the original zip file is named otherwise. This routine was only implemented to prevent from downloading the full data set with every iteration / repetition of this script. So if neither can be found, the script initiates the download and then unzips the data set into the folder '''/UCI HAR Dataset'''.
+There is no need to download the original data set from the UCI site manually, as the R script checks whether there is the zip file called 'Dataset.zip' in your working directory or a folder called '/UCI HAR Dataset'. It should be clear that this is no *real* evidence for the data set being in the right place, especially when the original zip file is named otherwise. This routine was only implemented to prevent from downloading the full data set with every iteration / repetition of this script. So if neither can be found, the script initiates the download and then unzips the data set into the folder '/UCI HAR Dataset'.
 
 ---
 
