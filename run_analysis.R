@@ -33,14 +33,14 @@ if (!file.exists("Dataset.zip")) {
         print("Downloading dataset...")
         download.file(zipUrl, destfile = "Dataset.zip", method = "curl")
         dateDownloaded <- date()
-        print("...DONE")
+        #print("...DONE")
                 } else {
                         print("Dataset already downloaded.")
 }
 if (!file.exists(mainDir)) {
         print("Unzipping data...")
         unzip("Dataset.zip")
-        print("...DONE")
+        #print("...DONE")
                 } else {
                         print("Dataset already unzipped.")
 }
@@ -62,12 +62,12 @@ testData <- read.table(paste0(testDir, "X_test.txt"))
 trainSubjects <- as.numeric(readLines(paste0(trainDir, "subject_train.txt")))
 trainLabels <- readLines(paste0(trainDir, "y_train.txt"))
 trainData <- read.table(paste0(trainDir, "X_train.txt"))
-print("...DONE")
+#print("...DONE")
 
 # Step 1        Merges the training and the test sets to create one data set.
 print("Step 1... Merges the training and the test sets to create one data set.")
 DF <- rbind(testData, trainData)
-print("...DONE")
+#print("...DONE")
 
 # Step 2        Extracts only the measurements on the mean and standard
 #               deviation for each measurement.
@@ -79,7 +79,7 @@ featuresWanted <- setdiff(grep("mean()|std()", features[,2]),
                                grep("meanFreq()", features[,2]))
                                
 wantedDF <- DF[featuresWanted]
-print("...DONE")
+#print("...DONE")
 
 # Step 3        Uses descriptive activity names to name
 #               the activities in the data set.
@@ -90,7 +90,7 @@ wantedDF <- cbind(subject = c(testSubjects, trainSubjects), wantedDF)
 wantedDF$activity <- factor(wantedDF$activity, 
                             levels = activityLabels[,1],
                             labels = activityLabels[,2])
-print("...DONE")
+#print("...DONE")
 
 # Step 4        Appropriately labels the data set with
 #               descriptive variable names.
@@ -103,8 +103,10 @@ features[,2][featuresWanted] <- gsub("[-()]", "", features[,2][featuresWanted])
 features[,2][featuresWanted] <- gsub("^t", "Time", features[, 2][featuresWanted])
 features[,2][featuresWanted] <- gsub("^f", "Freq", features[, 2][featuresWanted])
 
+features[,2][featuresWanted] <- gsub("BodyBody", "Body", features[, 2][featuresWanted])
+
 colnames(wantedDF) <- c("subject", "activity", features[,2][featuresWanted])
-print("...DONE")
+#print("...DONE")
 
 # Step 5        From the data set in step 4, creates a second, independent
 #               tidy data set with the average of each variable for each
@@ -122,13 +124,13 @@ colnames(groupedDF) <- newColNames
 colnames(groupedDF)[1:2] <- oldColNames[1:2]
 
 
-print("...DONE")
+#print("...DONE")
 
 # Save tidy data to disk
 print("Saving tidy data to txt file and emptying environment...")
 write.table(groupedDF, "tidy.txt", row.names = FALSE, quote = FALSE)
 rm(list = ls())
-print("...DONE")
+#print("...DONE")
 
 # Read tidy data into R - to double-check functionality
 print("Loading tidy data into R to check format...")
