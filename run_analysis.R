@@ -34,7 +34,7 @@ if (!file.exists("Dataset.zip")) {
         download.file(zipUrl, destfile = "Dataset.zip", method = "curl")
         dateDownloaded <- date()
         
-                        } else {
+                } else {
                         print("Dataset already downloaded.")
 }
 if (!file.exists(mainDir)) {
@@ -70,8 +70,7 @@ DF <- rbind(testData, trainData)
 #               deviation for each measurement.
 print("Step 2... Extracts only mean and standard deviation for each measurement,")
 print("...and ignores all meanFreq() measurements.")
-#featuresWanted <- grep("mean()|std()", features[,2])
-#featuresNotWanted <- grep("meanFreq()", features[,2])
+
 featuresWanted <- setdiff(grep("mean()|std()", features[,2]),
                           grep("meanFreq()", features[,2]))
                                
@@ -116,7 +115,7 @@ colnames(groupedDF)[1:2] <- oldColNames[1:2]
 # Save tidy data to disk
 print("Saving tidy data to txt file and emptying environment...")
 write.table(groupedDF, "tidy.txt", row.names = FALSE, quote = FALSE)
-#rm(list = ls())
+rm(list = ls())
 
 # Read tidy data into R - to double-check functionality
 print("Loading tidy data into R to check format...")
